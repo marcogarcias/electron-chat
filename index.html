@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="row">
+      <div class="col-4" id="left">
+        <button class="btn btn-primary">Enviar</button>
+        <ul class="contact list-unstyled mb-0 mt-2"></ul>
+      </div>
+      <div class="col-8" id="right">      
+        <div class="chats"></div>
+        <form action="" class="form-message">
+          <div class="row">
+            <div class="col">
+              <textarea class="form-control" placeholder="Type a message"></textarea>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-primary rounded-circle send-button">
+                Enviar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    ipcRenderer.on('initContacts', function(e, contacts){
+      createContacts(contacts);
+    });
+    ipcRenderer.on('setChat', function(e, chat){
+      //console.log('chat', chat);
+      createChats(chat);
+    });
+
+    function selectContact(idx){
+      console.log(idx);
+      ipcRenderer.send('getChat', idx);
+    }
+
+    function createContacts(contacts){
+      console.log('contacts', contacts);
+      var li = "";
+      contacts.forEach(function(contact, idx){
+        li += `<li class="p2 card">
+              <div class="card-body">
+                <div class="d-flex" onclick="selectContact(${idx})">
+                  <div>
+                    <img src="${contact.image}" width="60" alt="avatar" class="rounded-pill me-3">
+                  </div>
+                  <div>
+                    <p class="fw-bold mb-0 text-light">${contact.name}</p>
+                    <p class="small text-muted">${contact.last_chat.message}</p>
+                  </div>
+                  <div>
+                    <p class="small text-muted">${contact.last_chat.date}</p>
+                    <span class="badge bg-danger rounded-pill float-end">1</span>
+                  </div>
+                </div>
+              </div>
+            </li>`;
+      });
+      document.querySelector(".contact").innerHTML = li;
+    }
+
+    function createChats(chats){
+      var li = "";
+      chats.forEach(function(chat){
+        li += `
+          <div class="d-flex chat">
+            <div class="w-75">
+              <div class="card bg-dark">
+                <div class="card-body text-light">
+                  ${chat.chat.message}
+                </div>
+              </div>
+              <p class="small text-muted float-end">${chat.chat.date}</p>
+            </div>
+            <div class="w-25 d-flex align-items-end">
+              <img src="${chat.user.image}" alt="avatar" class="rounded-pill ms-3 avatar">
+            </div>
+          </div>`;
+      });
+      document.querySelector(".chats").innerHTML = li;
+    }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+#left{
+  background-color: #111;
+  left: 0;
+}
+
+#right{
+  background-color: #333;
+  right: 0;
+}
+
+#left, #right{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  overflow: auto;
+}
+
+.contact .card{
+  background-color: #333;
+}
+
+
+.chat{
+  margin-top: 8px;
+}
+
+.avatar{
+  height: 50px;
+  width: 50px;
+}
+
+.form-message{
+  margin-top: 15px;
+}
+
+.form-message textarea{
+  overflow: hidden;
+  resize: none;
+}
+
