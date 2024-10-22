@@ -5,12 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "buildWinDev": "electron-builder --win --dir",
+    "buildWin": "electron-builder --win"
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "electron": "^33.0.1",
+    "electron-builder": "^25.1.8"
+  },
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "electron": "^33.0.1"
+    "bootstrap": "^5.3.3"
   }
 }
